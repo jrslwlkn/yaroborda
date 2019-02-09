@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import {
+    BrowserRouter as Router, Route, Switch
+} from 'react-router-dom';
 import TopHeader from './top-header';
 import Board from './board';
 import Thread from './thread';
@@ -10,16 +12,19 @@ const homeTexts = ['Lorem ipsum dolor, sit amet consectetur adipisicing elit. Au
 
 class App extends Component {
     render() {
+        console.log(process.env.PORT);
         return (
-            <>
-                <TopHeader />
-                {/* <Route path="/" exact component={<Home texts={homeTexts} />} /> */}
-                <Home texts={homeTexts} />
-                {/* <Route path="/:board/" component={Board} />
-                <Route path="/:board/:thread/" component={Board} /> */}
-                {/* <NotFound /> */}
-                <Board />
-            </>
+            <Router>
+                <>
+                    <TopHeader />
+                    <Switch>
+                        <Route path="/" exact render={() => <Home texts={homeTexts} />} />
+                        <Route path="/:board/" exact component={Board} />
+                        <Route path="/:board/:thread/" exact component={Thread} />
+                        <Route component={NotFound} />
+                    </Switch>
+                </>
+            </Router>
         );
     }
 }
