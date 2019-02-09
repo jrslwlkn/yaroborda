@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
@@ -23,11 +24,12 @@ const knex = require('knex')({
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(helmet());
 
-// GET all boards name and url
+// GET all boards name, url and topic
 app.get('/', (req, res) => {
   knex
     .select('*')
