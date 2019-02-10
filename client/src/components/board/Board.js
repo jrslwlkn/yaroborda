@@ -20,14 +20,15 @@ class Board extends Component {
 
     render() {
         const { showForm } = this.state;
-        this.api.getAllBoards().then(console.log);
-        this.api.addThread('pr', {
-            board: 'pr',
-            text: 'FROM API!!!!',
-            title: 'API WORKS',
-            img: 'img'
-        }).then(console.log);
-        this.api.getBoard('pr').then(console.log);
+
+        // this.api.getAllBoards().then(console.log);
+        // this.api.addThread('pr', {
+        //     board: 'pr',
+        //     text: 'FROM API!!!!',
+        //     title: 'API WORKS',
+        //     img: 'img'
+        // }).then(console.log);
+        // this.api.getBoard('pr').then(console.log);
 
         return (
             <>

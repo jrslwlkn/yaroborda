@@ -13,8 +13,17 @@ export default class BordaApi {
         .then(res => res.data)
         .catch(error => error.response.data)
 
+    _filterBoards = (list, name) => list.filter(b => b.theme.toLowerCase().includes(name.toLowerCase()))
 
-    getAllBoards = () => this._getResource('/')
+
+    getAllBoards = () => this._getResource('/').then(boards => {
+        const result = {};
+        const categories = ['other', 'topic', 'it', 'japanese'];
+        categories.forEach(name => {
+            result[name] = this._filterBoards(boards, name);
+        });
+        return result;
+    })
 
     getBoard = (board) => this._getResource(`/board/${board}`)
 
