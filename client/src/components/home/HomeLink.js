@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 export default function HomeLink() {
     return (
         <>
-            {/* <Link to="/pr" className="link purple hover-white hover-bg-purple">Retro Games</Link> */}
-            <a href="/pr" className="link purple hover-white hover-bg-purple">Retro Games</a>
+            <Link to="/pr" className="link purple hover-white hover-bg-purple">Retro Games</Link>
             <br />
         </>
     );

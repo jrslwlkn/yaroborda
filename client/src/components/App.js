@@ -12,7 +12,6 @@ const homeTexts = ['Lorem ipsum dolor, sit amet consectetur adipisicing elit. Au
 
 class App extends Component {
     render() {
-        console.log(process.env.PORT);
         return (
             <Router>
                 <>

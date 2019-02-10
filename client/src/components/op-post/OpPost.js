@@ -5,15 +5,15 @@ import PostTopInfo from '../post-top-info';
 import PostImage from '../post-image';
 
 class OpPost extends Component {
-  render() {
-    return (
-      <OpLayout>
-        <PostTopInfo />
-        {'image' && <PostImage />}
-        <PostText />
-      </OpLayout>
-    );
-  }
+    render() {
+        return (
+            <OpLayout>
+                <PostTopInfo />
+                {'image' && <PostImage />}
+                <PostText />
+            </OpLayout>
+        );
+    }
 }
 
 export default OpPost;

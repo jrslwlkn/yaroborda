@@ -1,40 +1,51 @@
 import React, { Component } from 'react';
+
 import OpPost from '../op-post';
 import Post from '../post';
 import TopBigButton from '../top-big-button';
 import CreateThread from '../create-thread';
 
+import Api from '../../BordaApi';
+
 class Board extends Component {
-  state = {
-      showForm: true
-  }
+    api = new Api();
 
-  render() {
-      const { showForm } = this.state;
+    state = {
+        showForm: false
+    }
 
-      return (
-      <>
-          <h1 className="tc">/pr - Programming</h1>
+    toggleForm = () => this.setState(state => ({
+        showForm: !state.showForm
+    }))
 
-          {!showForm && <TopBigButton />}
+    render() {
+        const { showForm } = this.state;
+        this.api.getAllBoards().then(console.log);
+        this.api.addThread('pr', {
+            board: 'pr',
+            text: 'FROM API!!!!',
+            title: 'API WORKS',
+            img: 'img'
+        }).then(console.log);
+        this.api.getBoard('pr').then(console.log);
 
-          {showForm && <CreateThread />}
+        return (
+            <>
+                <h1 className="tc">/pr - Programming</h1>
 
-          <OpPost />
-          <Post />
+                {!showForm && <TopBigButton value="add new thread" toggle={this.toggleForm} />}
 
-          <OpPost />
-          <Post />
+                {showForm && <CreateThread toggle={this.toggleForm} />}
 
-          <OpPost />
-          <Post />
-
-          <OpPost />
-          <Post />
-
-      </>
-      );
-  }
+                <OpPost />
+                <Post />
+                <OpPost />
+                <Post />
+                <OpPost />
+                <Post />
+            </>
+        );
+    }
 }
 
 export default Board;
