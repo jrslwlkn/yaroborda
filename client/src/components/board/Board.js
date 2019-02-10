@@ -18,7 +18,9 @@ class Board extends Component {
         showForm: !state.showForm
     }))
 
+
     render() {
+        if (this.state.showForm) new Error();
         const { showForm } = this.state;
 
         // this.api.getAllBoards().then(console.log);
