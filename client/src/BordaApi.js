@@ -25,6 +25,8 @@ export default class BordaApi {
         return result;
     })
 
+    getBoardName = (url) => this._getResource('/').then(boards => boards.filter(board => board.url === url)).then(b => b[0].name)
+
     getBoard = (board) => this._getResource(`/board/${board}`)
 
     getLastPost = (board, thread) => this._getResource(`/lastpost/${board}/${thread}`)

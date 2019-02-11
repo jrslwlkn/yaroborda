@@ -6,11 +6,12 @@ import PostImage from '../post-image';
 
 class OpPost extends Component {
     render() {
+        const { img, text, ...props } = this.props;
         return (
             <OpLayout>
-                <PostTopInfo />
-                {'image' && <PostImage />}
-                <PostText />
+                <PostTopInfo {...props} />
+                {img && <PostImage img={img} />}
+                <PostText text={text} />
             </OpLayout>
         );
     }
