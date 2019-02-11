@@ -17,12 +17,30 @@ class Board extends Component {
     state = {
         showForm: false,
         loading: true,
-        name: ''
+        name: '',
+        currentSlice: 10
     }
 
     toggleForm = () => this.setState(state => ({
         showForm: !state.showForm
     }))
+
+    sliceCalc = (list) => {
+        const { currentSlice } = this.state;
+        const lastIndex = list.length - 1;
+
+        if (currentSlice < lastIndex) {
+            return this.setState(state => ({ currentSlice: state.currentSlice + 1 }));
+        }
+    }
+
+    autoPagination = (list) => {
+        const { clientHeight, scrollTop, scrollHeight } = document.documentElement;
+        if (clientHeight + scrollTop === scrollHeight) {
+            console.log('scrolled to bottom');
+            this.sliceCalc(list);
+        } else console.log('not bottom yet');
+    }
 
     componentDidMount = () => {
         const { board } = this.props.match.params;
@@ -30,6 +48,7 @@ class Board extends Component {
             .then(name => {
                 this.props.getBoard(board);
                 this.setState({ name, loading: false });
+                window.addEventListener('scroll', () => this.autoPagination(this.props.board.threads));
             })
             .catch(err => {
                 console.log(err);
@@ -39,7 +58,9 @@ class Board extends Component {
 
 
     render() {
-        const { showForm, loading, name } = this.state;
+        const {
+            showForm, loading, name, currentSlice
+        } = this.state;
         const { board, newThread, match } = this.props;
         const { boardIsLoading, threads, url } = board;
 
@@ -54,31 +75,23 @@ class Board extends Component {
             </>
         );
 
+        const slicedThreads = threads.slice(0, currentSlice);
+
         let content = <Spinner />;
         if (!loading && !boardIsLoading) {
             content = (
                 <>
                     {upperPart}
-                    {threads.map(thread => (
+                    {slicedThreads.length ? slicedThreads.map(thread => (
                         <Fragment key={thread.op.id}>
                             <OpPost {...thread.op} link={`${match.url}/${thread.op.id}`} />
                             {Object.keys(thread.lastPost).length > 0
                                 && <Post {...thread.lastPost} link={`${match.url}/${thread.op.id}/#${thread.lastPost.id}`} />}
                         </Fragment>
-                    ))}
+                    )) : <h2 className="tc white">No threads here yet, so add one!</h2>}
                 </>
             );
         }
-
-        // this.api.getBoard('pr')
-        //     .then(OPs => OPs.map(op => this.api.getLastPost('pr', op.id)
-        //         .then(lastPost => {
-        //             if (!lastPost) return { op, lastPost: {} };
-        //             return { op, lastPost };
-        //         })))
-        //     .then(threads => Promise.all(threads)).then(console.log);
-
-        // this.api.getBoardName('pr').then(console.log);
 
         return <>{content}</>;
     }

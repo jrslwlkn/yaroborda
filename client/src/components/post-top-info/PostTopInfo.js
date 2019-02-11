@@ -12,7 +12,7 @@ export default function PostTopInfo({
             <Link to={link} className="fr link purple hover-white hover-bg-purple b pointer">
                     reply
             </Link>
-            <small className="black-50 dib f6">{timestamp}</small>
+            <small className="black-50 dib f6">{new Date(timestamp).toLocaleString()}</small>
             {sage && <span className="ma1 black f6 b ml4-ns bg-red">SAGE</span>}
             <span className="ma1 black link f6 b ml4-ns pointer">#435345834</span>
             <br />
