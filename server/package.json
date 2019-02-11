@@ -6,7 +6,7 @@
     "scripts": {
         "backend": "nodemon",
         "frontend": "cd ../client && npm start",
-        "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+        "dev": "concurrently \"npm run frontend\" \"npm run backend\" "
     },
     "author": "Yaroslav Sheliakin",
     "license": "ISC",
@@ -34,8 +34,6 @@
         "helmet": "^3.15.0",
         "knex": "^0.16.3",
         "nodemon": "^1.18.9",
-        "pg": "^7.7.1",
-        "react-router": "^4.3.1",
-        "react-router-dom": "^4.3.1"
+        "pg": "^7.7.1"
     }
 }
