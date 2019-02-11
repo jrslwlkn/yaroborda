@@ -35,14 +35,12 @@ class Board extends Component {
                 console.log(err);
                 this.props.history.push('/no/such/page/found');
             });
-
-        // catch - if err on getBoardName -> history.push -> /not/exist/page -> redirect to 404
     }
 
 
     render() {
         const { showForm, loading, name } = this.state;
-        const { board, newThread } = this.props;
+        const { board, newThread, match } = this.props;
         const { boardIsLoading, threads, url } = board;
 
 
@@ -63,8 +61,9 @@ class Board extends Component {
                     {upperPart}
                     {threads.map(thread => (
                         <Fragment key={thread.op.id}>
-                            <OpPost {...thread.op} />
-                            {Object.keys(thread.lastPost).length > 0 && <Post {...thread.lastPost} />}
+                            <OpPost {...thread.op} link={`${match.url}/${thread.op.id}`} />
+                            {Object.keys(thread.lastPost).length > 0
+                                && <Post {...thread.lastPost} link={`${match.url}/${thread.op.id}/#${thread.lastPost.id}`} />}
                         </Fragment>
                     ))}
                 </>
