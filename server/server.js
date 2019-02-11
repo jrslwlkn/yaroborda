@@ -52,7 +52,9 @@ app.get('/board/:board', (req, res) => {
     .then(data => {
       if (!data[0]) {
         res.status(404).send({ error: 'No threads found on this board' });
-      } else res.send(data);
+      } else {
+        res.send(data);
+      }
     });
 });
 
@@ -62,6 +64,7 @@ app.get('/thread/:board/:thread', (req, res) => {
     .select('*')
     .from('post')
     .where('thread', req.params.thread)
+    .and('board', req.params.board)
     .orderBy('timestamp', 'esc')
     .then(data => {
       if (!data[0]) {
@@ -74,6 +77,7 @@ app.get('/thread/:board/:thread', (req, res) => {
 app.get('/op/:board/:thread', (req, res) => {
   knex('thread')
     .where('id', req.params.thread)
+    .and('board', req.params.board)
     .then(data => {
       if (!data[0]) {
         res.status(404).send({ error: 'Thread not found' });
@@ -84,11 +88,13 @@ app.get('/op/:board/:thread', (req, res) => {
 // GET the last post for the thread - object, if no posts found -> empty object
 app.get('/lastpost/:board/:thread', (req, res) => {
   knex('post')
+    .where('thread', req.params.thread)
+    .and('board', req.params.board)
     .orderBy('timestamp', 'desc')
     .limit(1)
     .then(data => {
       if (!data[0]) {
-        res.status(404).send({});
+        res.send({});
       } else res.send(data[0]);
     });
 });
@@ -121,6 +127,7 @@ app.post('/newpost/:board/:thread', (req, res) => {
         img: req.body.img,
         sage: req.body.sage,
         thread: req.params.thread,
+        board: req.params.board,
       },
     ])
     .returning('*')
