@@ -54,6 +54,20 @@ export const getBoard = (board) => dispatch => {
         }));
 };
 
-export const getThread = () => dispatch => {
+export const getThread = (board, thread, opPost) => dispatch => {
     dispatch(setLoading('thread'));
+    api.getAllPosts(board, thread)
+        .then(posts => {
+            if (!posts || posts.length < 0) return [];
+            return posts;
+        })
+        .then(posts => Promise.all(posts))
+        .then(posts => dispatch({
+            type: GET_THREAD,
+            payload: {
+                opPost,
+                url: thread,
+                posts
+            }
+        }));
 };

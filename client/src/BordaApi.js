@@ -29,6 +29,8 @@ export default class BordaApi {
 
     getBoard = (board) => this._getResource(`/board/${board}`)
 
+    getOpPost = (board, thread) => this._getResource(`/op/${board}/${thread}`)
+
     getLastPost = (board, thread) => this._getResource(`/lastpost/${board}/${thread}`)
 
     getOpPost = (board, thread) => this._getResource(`/op/${board}/${thread}`)
@@ -39,4 +41,12 @@ export default class BordaApi {
     addThread = (board, payload) => this._postData(`/newthread/${board}`, payload)
 
     addPost = (board, thread, payload) => this._postData(`/newpost/${board}/${thread}`, payload)
+
+
+    getSizeBase64 = (bytes) => {
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes === 0) return '0B';
+        const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return `${Math.round(bytes / Math.pow(1024, i), 2)}${sizes[i]}`;
+    }
 }

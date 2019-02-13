@@ -36,10 +36,7 @@ class Board extends Component {
 
     autoPagination = (list) => {
         const { clientHeight, scrollTop, scrollHeight } = document.documentElement;
-        if (clientHeight + scrollTop === scrollHeight) {
-            console.log('scrolled to bottom');
-            this.sliceCalc(list);
-        } else console.log('not bottom yet');
+        if (clientHeight + scrollTop === scrollHeight) this.sliceCalc(list);
     }
 
     componentDidMount = () => {
@@ -62,12 +59,12 @@ class Board extends Component {
             showForm, loading, name, currentSlice
         } = this.state;
         const { board, newThread, match } = this.props;
-        const { boardIsLoading, threads, url } = board;
+        const { boardIsLoading, threads } = board;
 
 
         const upperPart = (
             <>
-                <h1 className="tc">{`/${url} - ${name}`}</h1>
+                <h1 className="tc">{`/${match.params.board} - ${name}`}</h1>
                 {showForm
                     ? <CreateThread toggle={this.toggleForm} />
                     : <TopBigButton value="add new thread" toggle={this.toggleForm} />

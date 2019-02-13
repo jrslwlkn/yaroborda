@@ -1,10 +1,8 @@
 import { GET_BOARD, BOARD_LOADING } from '../actions/types';
 
 const initialState = {
-    url: '',
     threads: [],
     boardIsLoading: false,
-    currentThreadListSlice: 0,
 };
 
 export default (state = initialState, action) => {
