@@ -1,0 +1,39 @@
+.toolbar {
+    border-bottom: 0 !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+.toolbar div div button {
+    border: 1px solid black !important;
+    border-radius: 0 !important;
+    margin-right: 0.1rem;
+    background: white !important;
+}
+
+.editor-area {
+    border: 1px solid black !important;
+    min-height: 12em;
+    background: white !important;
+}
+
+.main-editor {
+    border: 0 !important;
+    border-radius: 0;
+    font-family: inherit;
+    margin-bottom: 0.5rem;
+    background: transparent !important;
+}
+
+.main-editor .public-DraftEditorPlaceholder-root {
+    padding: 0.5rem;
+    line-height: 1.15;
+    user-select: none;
+    color: grey;
+}
+
+.button {
+    border: 1px solid black !important;
+    border-radius: 0;
+}

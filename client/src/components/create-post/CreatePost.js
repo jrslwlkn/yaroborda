@@ -18,7 +18,7 @@ const CreatePost = ({ toggle }) => {
                                 <textarea rows="10" placeholder="write your post" id="text-body" className="cancel ba b--black pa2 mb2 db w-100" />
                             </div>
                             <div className="fl w-50">
-                                <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">add an image (click)</label>
+                                <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">add an image</label>
                                 <input type="file" accept="image/*" name="picture" id="picture" className="dn" />
                             </div>
                             <div className="fl center w-20 mt2">
@@ -48,7 +48,7 @@ const CreatePost = ({ toggle }) => {
                             <textarea rows="10" placeholder="write your post" id="text-body" className="ba b--black pa2 mb2 db w-100" />
                         </div>
                         <div className="fl w-50">
-                            <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">add an image (click)</label>
+                            <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">add an image</label>
                             <input type="file" accept="image/*" name="picture" id="picture" className="dn" />
                         </div>
                         <div className="fl center w-20 mt2">

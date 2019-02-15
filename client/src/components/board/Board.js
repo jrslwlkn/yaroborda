@@ -15,7 +15,7 @@ class Board extends Component {
     api = new Api();
 
     state = {
-        showForm: false,
+        showForm: true,
         loading: true,
         name: '',
         currentSlice: 10
