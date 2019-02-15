@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Draggable from 'react-draggable';
 import MdEditor from 'react-rte';
+import { toolbarConfig } from './md-editor-config';
 import './create-thread.css';
 import './md-editor.css';
 
@@ -13,19 +14,6 @@ class CreateThread extends Component {
     render() {
         const { toggle } = this.props;
         const { value } = this.state;
-
-        const toolbarConfig = {
-            display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'HISTORY_BUTTONS'],
-            INLINE_STYLE_BUTTONS: [
-                { label: 'Bold', style: 'BOLD', className: 'custom-css-class' },
-                { label: 'Italic', style: 'ITALIC' },
-                { label: 'Underline', style: 'UNDERLINE' }
-            ],
-            BLOCK_TYPE_BUTTONS: [
-                { label: 'UL', style: 'unordered-list-item' },
-                { label: 'OL', style: 'ordered-list-item' }
-            ]
-        };
 
         let form;
         if (window.innerWidth > 777) {
