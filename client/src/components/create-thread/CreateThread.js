@@ -12,7 +12,9 @@ class CreateThread extends Component {
     }
 
     onEditorChange = (value) => {
-        this.setState({ value });
+        this.setState(state => {
+            if (value !== state.value) return { value };
+        });
         console.log(this.state.value.toString('markdown'));
     }
 

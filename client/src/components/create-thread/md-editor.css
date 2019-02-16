@@ -33,6 +33,10 @@
     color: grey;
 }
 
+.public-DraftEditor-content {
+    min-height: 12em;
+}
+
 .button {
     border: 1px solid black !important;
     border-radius: 0;
