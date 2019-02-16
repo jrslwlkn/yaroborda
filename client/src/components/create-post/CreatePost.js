@@ -11,6 +11,11 @@ class CreatePost extends Component {
         value: MdEditor.createEmptyValue()
     }
 
+    onEditorChange = (value) => {
+        this.setState({ value });
+        console.log(this.state.value.toString('markdown'));
+    }
+
     render() {
         const { toggle } = this.props;
         const { value } = this.state;
@@ -26,16 +31,16 @@ class CreatePost extends Component {
                         </div>
                         <div className="pa3 bt">
                             <form onSubmit={() => '...'} encType="multipart/form-data">
-                                <div className="fr w-100">
+                                <div className="fr w-100 cancel">
                                     <MdEditor
-                                            toolbarConfig={toolbarConfig}
-                                            value={value}
-                                            onChange={() => console.log(value)}
-                                            toolbarClassName="toolbar"
-                                            editorClassName="editor-area"
-                                            placeholder="write your post here"
-                                            className="main-editor"
-                                            autoFocus
+                                        toolbarConfig={toolbarConfig}
+                                        value={value}
+                                        onChange={this.onEditorChange}
+                                        toolbarClassName="toolbar"
+                                        editorClassName="editor-area"
+                                        placeholder="write your post here"
+                                        className="main-editor"
+                                        autoFocus
                                     />
                                     {/* <textarea rows="10" placeholder="write your post" id="text-body" className="cancel ba b--black pa2 mb2 db w-100" /> */}
                                 </div>
@@ -46,7 +51,7 @@ class CreatePost extends Component {
                                 <div className="fl center w-20 mt2">
                                     <div className="flex items-center mb2">
                                         <input className="mh2" type="checkbox" id="sage" value="sage" />
-                                        <label htmlFor="sage" className="b">SAGE</label>
+                                        <label htmlFor="sage" className="b red">SAGE</label>
                                     </div>
                                 </div>
                                 <div className="fr w-20">
@@ -66,11 +71,11 @@ class CreatePost extends Component {
                             <button onClick={toggle} type="button" className="pointer fr pa0 ph1 mb1 bg-purple white">x</button>
                         </div>
                         <form onSubmit={() => '...'} encType="multipart/form-data">
-                            <div className="fr w-100">
+                            <div className="fr w-100 cancel">
                                 <MdEditor
                                     toolbarConfig={toolbarConfig}
                                     value={value}
-                                    onChange={() => console.log(value)}
+                                    onChange={this.onEditorChange}
                                     toolbarClassName="toolbar"
                                     editorClassName="editor-area"
                                     placeholder="write your post here"
@@ -86,7 +91,7 @@ class CreatePost extends Component {
                             <div className="fl center w-20 mt2">
                                 <div className="flex items-center mb2">
                                     <input className="mh2" type="checkbox" id="sage" value="sage" />
-                                    <label htmlFor="sage" className="b">SAGE</label>
+                                    <label htmlFor="sage" className="b red">SAGE</label>
                                 </div>
                             </div>
                             <div className="fr w-20">

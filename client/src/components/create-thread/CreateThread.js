@@ -11,6 +11,11 @@ class CreateThread extends Component {
         value: MdEditor.createEmptyValue()
     }
 
+    onEditorChange = (value) => {
+        this.setState({ value });
+        console.log(this.state.value.toString('markdown'));
+    }
+
     render() {
         const { toggle } = this.props;
         const { value } = this.state;
@@ -36,7 +41,7 @@ class CreateThread extends Component {
                                     <MdEditor
                                         toolbarConfig={toolbarConfig}
                                         value={value}
-                                        onChange={() => console.log(value)}
+                                        onChange={this.onEditorChange}
                                         toolbarClassName="toolbar"
                                         editorClassName="editor-area"
                                         placeholder="write your post here"
@@ -71,11 +76,11 @@ class CreateThread extends Component {
                             <div className="fr w-25">
                                 <button type="submit" id="submit" className="ba white b--black pa2 mb2 db w-100 pointer b bg-near-black">submit</button>
                             </div>
-                            <div className="fr w-100">
+                            <div className="fr w-100 cancel">
                                 <MdEditor
                                     toolbarConfig={toolbarConfig}
                                     value={value}
-                                    onChange={() => console.log(value)}
+                                    onChange={this.onEditorChange}
                                     toolbarClassName="toolbar"
                                     editorClassName="editor-area"
                                     placeholder="write your post here"
