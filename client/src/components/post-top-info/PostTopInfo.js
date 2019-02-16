@@ -14,7 +14,7 @@ export default function PostTopInfo({
             </Link>
             <small className="black-50 dib f6">{new Date(timestamp).toLocaleString()}</small>
             {sage && <span className="ma1 black f6 b ml4-ns bg-red">SAGE</span>}
-            <span id={id} className="ma1 black link f6 b ml4-ns pointer">#{id}</span>
+            <span id={id} className="ma1 black link f6 b pointer">#{id}</span>
             <br />
         </div>
     );

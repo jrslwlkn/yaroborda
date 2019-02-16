@@ -72,10 +72,10 @@ class CreateThread extends Component {
                             <button onClick={toggle} type="button" className="pointer fr pa0 ph1 mb1 bg-purple white">x</button>
                         </div>
                         <form onSubmit={() => '...'} encType="multipart/form-data">
-                            <div className="fl w-70">
+                            <div className="fl w-50">
                                 <input placeholder="thread title" id="name" className="input-reset ba b--black pa2 mb2 db w-100 outline-0" type="text" />
                             </div>
-                            <div className="fr w-25">
+                            <div className="fr w-50">
                                 <button type="submit" id="submit" className="ba white b--black pa2 mb2 db w-100 pointer b bg-near-black">submit</button>
                             </div>
                             <div className="fr w-100 cancel">
