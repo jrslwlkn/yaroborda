@@ -34,7 +34,7 @@ class CreateThread extends Component {
                         <div className="pa3 bt">
                             <form method="POST" onSubmit={() => '...'} encType="multipart/form-data">
                                 <div className="fl w-70">
-                                    <input placeholder="thread title" id="name" className="cancel input-reset ba b--black pa2 mb2 db w-100" type="text" />
+                                    <input placeholder="thread title" id="name" className="cancel input-reset ba b--black pa2 mb2 db w-100 outline-0" type="text" />
                                 </div>
                                 <div className="fr w-25">
                                     <button type="submit" id="submit" className="ba white b--black bg-light-purple pa2 mb2 db w-100 pointer b">submit</button>
@@ -73,7 +73,7 @@ class CreateThread extends Component {
                         </div>
                         <form onSubmit={() => '...'} encType="multipart/form-data">
                             <div className="fl w-70">
-                                <input placeholder="thread title" id="name" className="input-reset ba b--black pa2 mb2 db w-100" type="text" />
+                                <input placeholder="thread title" id="name" className="input-reset ba b--black pa2 mb2 db w-100 outline-0" type="text" />
                             </div>
                             <div className="fr w-25">
                                 <button type="submit" id="submit" className="ba white b--black pa2 mb2 db w-100 pointer b bg-near-black">submit</button>
