@@ -3,10 +3,10 @@ export const toolbarConfig = {
     INLINE_STYLE_BUTTONS: [
         { label: 'Bold', style: 'BOLD', className: 'custom-css-class' },
         { label: 'Italic', style: 'ITALIC' },
-        { label: 'Underline', style: 'UNDERLINE' }
+        { label: 'Strikethrough', style: 'STRIKETHROUGH' }
     ],
     BLOCK_TYPE_BUTTONS: [
         { label: 'UL', style: 'unordered-list-item' },
-        { label: 'OL', style: 'ordered-list-item' }
+        { label: 'Blockquote', style: 'blockquote' }
     ]
 };

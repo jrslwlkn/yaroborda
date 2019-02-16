@@ -56,7 +56,7 @@ class CreatePost extends Component {
                                         <label htmlFor="sage" className="b red">SAGE</label>
                                     </div>
                                 </div>
-                                <div className="fr w-20">
+                                <div className="fr w-30">
                                     <button type="submit" id="submit" className="ba white bg-light-purple pa2 mb2 db w-100 pointer b b--black">submit</button>
                                 </div>
                             </form>

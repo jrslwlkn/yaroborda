@@ -36,8 +36,8 @@ class CreateThread extends Component {
                                 <div className="fl w-70">
                                     <input placeholder="thread title" id="name" className="cancel input-reset ba b--black pa2 mb2 db w-100 outline-0" type="text" />
                                 </div>
-                                <div className="fr w-25">
-                                    <button type="submit" id="submit" className="ba white b--black bg-light-purple pa2 mb2 db w-100 pointer b">submit</button>
+                                <div className="fr w-30">
+                                    <button type="submit" id="submit" className="ba white b--black bg-light-purple pa2 mb2 db w-100 pointer b bl-0">submit</button>
                                 </div>
                                 <div className="fr w-100 cancel">
                                     <MdEditor
@@ -72,10 +72,10 @@ class CreateThread extends Component {
                             <button onClick={toggle} type="button" className="pointer fr pa0 ph1 mb1 bg-purple white">x</button>
                         </div>
                         <form onSubmit={() => '...'} encType="multipart/form-data">
-                            <div className="fl w-50">
+                            <div className="fl w-60">
                                 <input placeholder="thread title" id="name" className="input-reset ba b--black pa2 mb2 db w-100 outline-0" type="text" />
                             </div>
-                            <div className="fr w-50">
+                            <div className="fr w-40">
                                 <button type="submit" id="submit" className="ba white b--black pa2 mb2 db w-100 pointer b bg-near-black">submit</button>
                             </div>
                             <div className="fr w-100 cancel">
