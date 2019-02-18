@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Prompt } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
 import OpPost from '../op-post';
@@ -64,6 +65,14 @@ class Board extends Component {
             });
     }
 
+    componentDidUpdate = () => {
+        if (this.api.isDirty(this.props.newThread)) {
+            window.onbeforeunload = () => true;
+        } else {
+            window.onbeforeunload = undefined;
+        }
+    }
+
 
     render() {
         const {
@@ -77,6 +86,10 @@ class Board extends Component {
 
         const upperPart = (
             <>
+                <Prompt
+                    message={'Are you sure you want to leave the page?\nYour post may not be saved.'}
+                    when={this.api.isDirty(newThread)}
+                />
                 <h1 className="tc">{`/${match.params.board} - ${name}`}</h1>
                 {showForm
                     ? (

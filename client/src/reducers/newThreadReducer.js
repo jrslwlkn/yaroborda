@@ -5,7 +5,6 @@ const initialState = {
     text: '',
     imgFile: null,
     board: '',
-    newThreadIsLoading: false,
     errors: [],
 };
 

@@ -53,6 +53,11 @@ export default class BordaApi {
         return true;
     }
 
+    isDirty = (post) => {
+        if (post.text.length > 2 || post.title.length > 0 || post.imgFile) return true;
+        return false;
+    }
+
     _transformToFormData = (imgData) => {
         const data = new FormData();
         data.append('file', imgData);
