@@ -48,6 +48,7 @@ class Thread extends Component {
         const { threadIsLoading, posts } = thread;
 
         let content = <Spinner />;
+        console.log(posts);
         if (!loading && !threadIsLoading) {
             content = (
                 <>
@@ -56,10 +57,10 @@ class Thread extends Component {
                         : <TopBigButton value="add new post" toggle={this.toggleForm} />
                     }
 
-                    <OpPost {...thread.opPost} func={() => this.addIdToNewPost(thread.opPost.id)} link={`${match.url}`} />
+                    <OpPost {...thread.opPost} func={() => this.addIdToNewPost(thread.opPost.id)} link={`${match.url}`} size={this.api.getSizeBase64(thread.opPost.img_byte_size)} />
 
                     {posts.length
-                        ? posts.map(post => <Post key={post.id} {...post} func={() => this.addIdToNewPost(post.id)} link={`${match.url}`} />)
+                        ? posts.map(post => <Post key={post.id} {...post} func={() => this.addIdToNewPost(post.id)} link={`${match.url}`} size={this.api.getSizeBase64(post.img_byte_size)} />)
                         : null}
                 </>
             );

@@ -137,6 +137,9 @@ app.post('/newpost/:board/:thread', (req, res) => {
         sage: req.body.sage,
         thread: req.params.thread,
         board: req.params.board,
+        img_height: req.body.img_height,
+        img_width: req.body.img_width,
+        img_byte_size: req.body.img_byte_size,
       },
     ])
     .returning('*')
