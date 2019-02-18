@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
     .from('board')
     .then(data => {
       if (!data[0]) {
-        res.send({ error: 'No boards found...' });
+        res.status(404).send({ error: 'No boards found...' });
       } else res.send(data);
     });
 });
@@ -51,7 +51,7 @@ app.get('/board/:board', (req, res) => {
     .limit(100)
     .then(data => {
       if (!data[0]) {
-        res.send({ error: 'No threads found on this board' });
+        res.status(404).send({ error: 'No threads found on this board' });
       } else {
         res.send(data);
       }
@@ -70,7 +70,7 @@ app.get('/thread/:board/:thread', (req, res) => {
     .orderBy('timestamp', 'esc')
     .then(data => {
       if (!data[0]) {
-        res.send({ error: 'No posts to this thread found' });
+        res.status(404).send({ error: 'No posts to this thread found' });
       } else res.send(data);
     });
 });
