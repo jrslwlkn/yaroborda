@@ -4,13 +4,13 @@ require('dotenv').config();
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary').v2;
 
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET,
-});
+// cloudinary.config({
+//   cloud_name: process.env.CLOUD_NAME,
+//   api_key: process.env.API_KEY,
+//   api_secret: process.env.API_SECRET,
+// });
 
 const knex = require('knex')({
   client: process.env.DB_CLIENT,
@@ -116,6 +116,9 @@ app.post('/newthread/:board', (req, res) => {
         img: req.body.img,
         title: req.body.title,
         board: req.params.board,
+        img_height: req.body.img_height,
+        img_width: req.body.img_width,
+        img_byte_size: req.body.img_byte_size,
       },
     ])
     .returning('*')
