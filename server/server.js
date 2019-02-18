@@ -77,11 +77,11 @@ app.get('/thread/:board/:thread', (req, res) => {
 
 // GET OP thread by id - object
 app.get('/op/:board/:thread', (req, res) => {
-  knex('thread')
-    .where({
-      id: req.params.thread,
-      board: req.params.board,
-    })
+  knex
+    .select('*')
+    .from('thread')
+    .where('id', req.params.thread)
+    .andWhere('board', req.params.board)
     .then(data => {
       if (!data[0]) {
         res.status(404).send({ error: 'Thread not found' });

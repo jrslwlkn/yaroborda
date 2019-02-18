@@ -12,6 +12,10 @@ class CreateThread extends Component {
         editorValue: MdEditor.createValueFromString(this.props.newThread.text, 'markdown'),
     }
 
+    componentDidMount() {
+        this.props.updateNewThread({ errors: [] });
+    }
+
     onEditorChange = (editorValue) => {
         this.setState(state => {
             this.props.updateNewThread({ text: editorValue.toString('markdown') });
@@ -46,10 +50,6 @@ class CreateThread extends Component {
         console.log(obj);
         console.log(obj.text.trim());
         this.props.addThread(obj);
-    }
-
-    componentDidMount() {
-        this.props.updateNewThread({ errors: [] });
     }
 
 

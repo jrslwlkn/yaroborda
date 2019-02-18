@@ -29,8 +29,10 @@ class Thread extends Component {
 
     componentDidMount = () => {
         const { board, thread } = this.props.match.params;
+        if (!this.api.validateNumber(thread)) return this.props.history.push('/no/such/page/found');
         this.api.getOpPost(board, thread)
             .then(op => {
+                if (!op) return this.props.history.push('/no/such/page/found');
                 this.props.getThread(board, thread, op);
                 this.setState({ loading: false });
             })
@@ -42,7 +44,7 @@ class Thread extends Component {
 
     render() {
         const { showForm, loading } = this.state;
-        const { thread, newThread, match } = this.props;
+        const { thread, newPost, match } = this.props;
         const { threadIsLoading, posts } = thread;
 
         let content = <Spinner />;

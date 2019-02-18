@@ -82,6 +82,8 @@ class Board extends Component {
             board, newThread, match, updateNewThread
         } = this.props;
         const { boardIsLoading, threads } = board;
+        // console.log('check if op exists', this.api.getOpPost('a', 'qwerty'));
+        // console.log(this.api.validateNumber('43453r4534'));
 
 
         const upperPart = (
