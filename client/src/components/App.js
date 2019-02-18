@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
     BrowserRouter as Router, Route, Switch
 } from 'react-router-dom';
+import { CircleArrow as ScrollUpButton } from 'react-scroll-up-button';
 import TopHeader from './top-header';
 import Board from './board';
 import Thread from './thread';
@@ -23,6 +24,7 @@ class App extends Component {
                         <Route path="/:board/:thread/" exact component={Thread} />
                         <Route component={NotFound} />
                     </Switch>
+                    <ScrollUpButton style={{ outline: 'none' }} />
                 </ErrorBoundary>
             </Router>
         );

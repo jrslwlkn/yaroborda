@@ -37,9 +37,9 @@ class Board extends Component {
         }
     }
 
-    autoPagination = (list) => {
+    autoPagination = () => {
         const { clientHeight, scrollTop, scrollHeight } = document.documentElement;
-        if (clientHeight + scrollTop === scrollHeight) this.sliceCalc(list);
+        if (clientHeight + scrollTop === scrollHeight) this.sliceCalc(this.props.board.threads);
     }
 
     onAdd = (obj) => {
@@ -57,7 +57,7 @@ class Board extends Component {
             .then(name => {
                 this.props.getBoard(board);
                 this.setState({ name, loading: false });
-                window.addEventListener('scroll', () => this.autoPagination(this.props.board.threads));
+                window.addEventListener('scroll', this.autoPagination);
             })
             .catch(err => {
                 console.log(err);
@@ -71,6 +71,10 @@ class Board extends Component {
         } else {
             window.onbeforeunload = undefined;
         }
+    }
+
+    componentWillUnmount = () => {
+        window.removeEventListener('scroll', this.autoPagination);
     }
 
 

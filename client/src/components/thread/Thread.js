@@ -48,7 +48,6 @@ class Thread extends Component {
         const { threadIsLoading, posts } = thread;
 
         let content = <Spinner />;
-        console.log(posts);
         if (!loading && !threadIsLoading) {
             content = (
                 <>
