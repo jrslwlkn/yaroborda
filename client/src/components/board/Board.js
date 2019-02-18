@@ -7,15 +7,17 @@ import Post from '../post';
 import TopBigButton from '../top-big-button';
 import CreateThread from '../create-thread';
 import Spinner from '../spinner';
+import SpinnerBox from '../spinner-box';
 
 import Api from '../../BordaApi';
-import { getBoard } from '../../actions';
+import { getBoard, addThread, updateNewThread } from '../../actions';
 
 class Board extends Component {
     api = new Api();
 
     state = {
         showForm: false,
+        showBox: false,
         loading: true,
         name: '',
         currentSlice: 10
@@ -39,6 +41,15 @@ class Board extends Component {
         if (clientHeight + scrollTop === scrollHeight) this.sliceCalc(list);
     }
 
+    onAdd = (obj) => {
+        this.props.addThread(obj);
+        if (this.api.validateNewPost(true, obj)) {
+            this.toggleForm();
+            this.setState({ showBox: true });
+        }
+    }
+
+
     componentDidMount = () => {
         const { board } = this.props.match.params;
         this.api.getBoardName(board)
@@ -56,9 +67,11 @@ class Board extends Component {
 
     render() {
         const {
-            showForm, loading, name, currentSlice
+            showForm, showBox, loading, name, currentSlice
         } = this.state;
-        const { board, newThread, match } = this.props;
+        const {
+            board, newThread, match, updateNewThread
+        } = this.props;
         const { boardIsLoading, threads } = board;
 
 
@@ -66,8 +79,21 @@ class Board extends Component {
             <>
                 <h1 className="tc">{`/${match.params.board} - ${name}`}</h1>
                 {showForm
-                    ? <CreateThread toggle={this.toggleForm} />
-                    : <TopBigButton value="add new thread" toggle={this.toggleForm} />
+                    ? (
+                        <CreateThread
+                            toggle={this.toggleForm}
+                            addThread={this.onAdd}
+                            board={match.params.board}
+                            updateNewThread={updateNewThread}
+                            newThread={newThread}
+                        />
+                    )
+                    : (
+                        <TopBigButton
+                            value="add new thread"
+                            toggle={this.toggleForm}
+                        />
+                    )
                 }
             </>
         );
@@ -79,11 +105,12 @@ class Board extends Component {
             content = (
                 <>
                     {upperPart}
+                    {showBox && <SpinnerBox />}
                     {slicedThreads.length ? slicedThreads.map(thread => (
                         <Fragment key={thread.op.id}>
-                            <OpPost {...thread.op} link={`${match.url}/${thread.op.id}`} />
+                            <OpPost {...thread.op} link={`${match.url}/${thread.op.id}`} size={this.api.getSizeBase64(thread.op.img_byte_size)} />
                             {Object.keys(thread.lastPost).length > 0
-                                && <Post {...thread.lastPost} link={`${match.url}/${thread.op.id}/#${thread.lastPost.id}`} />}
+                                && <Post {...thread.lastPost} link={`${match.url}/${thread.op.id}/#${thread.lastPost.id}`} size={this.api.getSizeBase64(thread.lastPost.img_byte_size)} />}
                         </Fragment>
                     )) : <h2 className="tc white">No threads here yet, so add one!</h2>}
                 </>
@@ -99,4 +126,4 @@ const mapStateToProps = state => ({
     newThread: state.newThread
 });
 
-export default connect(mapStateToProps, { getBoard })(withRouter(Board));
+export default connect(mapStateToProps, { getBoard, addThread, updateNewThread })(withRouter(Board));

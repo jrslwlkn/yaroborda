@@ -3,6 +3,8 @@ import axios from 'axios';
 export default class BordaApi {
     _apiBase = 'http://localhost:5000'
 
+    _imgApiBase = 'https://api.cloudinary.com/v1_1/gorytsvit/image/upload'
+
     _getResource = (url) => axios
         .get(`${this._apiBase}${url}`)
         .then(data => data.data)
@@ -41,6 +43,24 @@ export default class BordaApi {
     addThread = (board, payload) => this._postData(`/newthread/${board}`, payload)
 
     addPost = (board, thread, payload) => this._postData(`/newpost/${board}/${thread}`, payload)
+
+
+    validateNewPost = (isThread, post) => {
+        if (post.text.trim().length < 3) return false;
+        if (isThread) {
+            if (post.title.trim().length === 0 || !post.imgFile) return false;
+        }
+        return true;
+    }
+
+    _transformToFormData = (imgData) => {
+        const data = new FormData();
+        data.append('file', imgData);
+        data.append('upload_preset', process.env.REACT_APP_IMG_PRESET);
+        return data;
+    }
+
+    uploadImg = (data) => axios.post(this._imgApiBase, this._transformToFormData(data)).catch(console.log)
 
 
     getSizeBase64 = (bytes) => {
