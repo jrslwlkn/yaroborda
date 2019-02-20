@@ -4,11 +4,10 @@ const initialState = {
     text: '',
     img: '',
     sage: false,
-    img_height: 0,
-    img_width: 0,
-    img_byte_size: 0,
+    imgFile: null,
     board: '',
-    thread: ''
+    thread: '',
+    errors: [],
 };
 
 export default (state = initialState, action) => {
