@@ -117,6 +117,47 @@ export const updateNewThread = (obj) => dispatch => {
     });
 };
 
+// needs correction
+export const addPost = (obj) => dispatch => {
+    const errors = [];
+    if (obj.text.trim().length < 3) errors.push('Post cannot be so empty.');
+    if (obj.title.trim().length === 0) errors.push('New threads (op post) must have a title.');
+    if (!obj.imgFile) errors.push('New threads (op post) must contain an image.');
+
+    if (errors.length === 0) {
+        dispatch(setLoading('newThread'));
+
+        api.uploadImg(obj.imgFile)
+            .then(res => {
+                if (res.status === 200) {
+                    return {
+                        img: res.data.secure_url,
+                        img_height: res.data.height,
+                        img_width: res.data.width,
+                        img_byte_size: res.data.bytes
+                    };
+                }
+            })
+            .then(res => {
+                const thread = {
+                    ...res,
+                    title: obj.title,
+                    text: obj.text,
+                };
+                api.addThread(obj.board, thread).then(newThread => {
+                    dispatch({ type: ADD_THREAD });
+                    window.location.reload();
+                });
+            })
+            .catch(console.log);
+    } else {
+        dispatch({
+            type: UPDATE_NEW_THREAD,
+            payload: { ...obj, errors }
+        });
+    }
+};
+
 
 export const updateNewPost = (obj) => dispatch => dispatch({
     type: UPDATE_NEW_POST,
