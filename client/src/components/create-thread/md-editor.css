@@ -41,3 +41,7 @@
     border: 1px solid black !important;
     border-radius: 0;
 }
+
+.editor-area .DraftEditor-root .DraftEditor-editorContainer div div div {
+    margin: 0 !important;
+}

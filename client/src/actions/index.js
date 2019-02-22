@@ -147,7 +147,6 @@ export const addPost = (data) => dispatch => {
                     api.addPost(obj.board, obj.thread, { ...res, ...obj })
                         .then(_ => {
                             dispatch({ type: ADD_POST });
-                            window.location.reload();
                         // TODO
                         // somehow scroll to the post #id
                         });
@@ -157,7 +156,6 @@ export const addPost = (data) => dispatch => {
             api.addPost(obj.board, obj.thread, obj)
                 .then(_ => {
                     dispatch({ type: ADD_POST });
-                    // window.location.reload();
                     // TODO
                     // somehow scroll to the post #id
                 })

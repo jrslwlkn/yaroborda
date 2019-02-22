@@ -26,10 +26,12 @@ class Thread extends Component {
 
     addIdToNewPost = (id) => {
         const { newPost, updateNewPost } = this.props;
-        let text = `${newPost.text}\n-> ${id}\n`;
-        if (newPost.text[newPost.text.length - 1] === '\n') text = `${newPost.text}-> ${id}\n`;
-        updateNewPost({ ...newPost, text });
-        console.log(text);
+        if (!newPost.text.includes(`-> ${id}`)) {
+            let text = `${newPost.text}\n-> ${id}\n`;
+            if (newPost.text === '') text = `${newPost.text}-> ${id}\n`;
+            updateNewPost({ ...newPost, text });
+            console.log(text);
+        }
     }
 
     toggleSage = () => {
@@ -44,10 +46,24 @@ class Thread extends Component {
         if (this.api.validateNewPost(false, obj)) {
             this.toggleForm();
             this.setState({ showBox: true });
+
+            let id;
+            const { board, thread } = this.props.match.params;
+            this.api.getLastPost(board, thread)
+                .then(post => {
+                    window.location.reload();
+                    id = post.id;
+                });
+            document.getElementById(id).scrollIntoView();
         }
     }
 
+    scrollTest = () => {
+        document.getElementById(`67`).scrollIntoView();
+    }
+
     componentDidMount = () => {
+        console.log(window.location.hash);
         if (this.props.newPost.text[this.props.newPost.text.length - 1] === '\n') console.log('/n');
 
         const {
