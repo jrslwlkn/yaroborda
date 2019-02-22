@@ -96,10 +96,11 @@ export const addThread = (obj) => dispatch => {
                     title: obj.title,
                     text: obj.text,
                 };
-                api.addThread(obj.board, thread).then(newThread => {
-                    dispatch({ type: ADD_THREAD });
-                    window.location.reload();
-                });
+                api.addThread(obj.board, thread)
+                    .then(_ => {
+                        dispatch({ type: ADD_THREAD });
+                        window.location.reload();
+                    });
             })
             .catch(console.log);
     } else {
@@ -118,17 +119,20 @@ export const updateNewThread = (obj) => dispatch => {
 };
 
 
-export const addPost = (obj) => dispatch => {
+export const addPost = (data) => dispatch => {
+    console.log('obj in addPost', data);
     const errors = [];
-    if (obj.text.trim().length < 3) errors.push('Post cannot be so empty.');
+    if (data.text.trim().length < 3) errors.push('Post cannot be so empty.');
 
     if (errors.length === 0) {
         dispatch(setLoading('newPost'));
 
-        let imgPromise = null;
-        if (obj.img) {
-            imgPromise = api.uploadImg(obj.imgFile)
+        const { imgFile, ...obj } = data;
+
+        if (imgFile !== null) {
+            api.uploadImg(imgFile)
                 .then(res => {
+                    console.log('pic res', res);
                     if (res.status === 200) {
                         return {
                             img: res.data.secure_url,
@@ -137,17 +141,15 @@ export const addPost = (obj) => dispatch => {
                             img_byte_size: res.data.bytes
                         };
                     }
-                });
-        }
-
-        if (imgPromise) {
-            imgPromise
+                })
                 .then(res => {
+                    console.log('before add', { ...res, ...obj });
                     api.addPost(obj.board, obj.thread, { ...res, ...obj })
                         .then(_ => {
                             dispatch({ type: ADD_POST });
                             window.location.reload();
-                            // somehow scroll to the post #id
+                        // TODO
+                        // somehow scroll to the post #id
                         });
                 })
                 .catch(console.log);
@@ -155,40 +157,16 @@ export const addPost = (obj) => dispatch => {
             api.addPost(obj.board, obj.thread, obj)
                 .then(_ => {
                     dispatch({ type: ADD_POST });
-                    window.location.reload();
+                    // window.location.reload();
+                    // TODO
                     // somehow scroll to the post #id
-                });
+                })
+                .catch(console.log);
         }
-
-        // api.uploadImg(obj.imgFile)
-        //     .then(res => {
-        //         if (res.status === 200) {
-        //             return {
-        //                 img: res.data.secure_url,
-        //                 img_height: res.data.height,
-        //                 img_width: res.data.width,
-        //                 img_byte_size: res.data.bytes
-        //             };
-        //         }
-        //     })
-        //     .then(res => {
-        //         const payload = {
-        //             ...res,
-        //             text: obj.text,
-        //             sage: obj.sage,
-        //             thread: obj.thread
-        //         };
-        //         api.addPost(obj.board, obj.thread, payload).then(_ => {
-        //             dispatch({ type: ADD_POST });
-        //             window.location.reload();
-        //             // somehow scroll to the post #id
-        //         });
-        //     })
-        //     .catch(console.log);
     } else {
         dispatch({
             type: UPDATE_NEW_POST,
-            payload: { ...obj, errors }
+            payload: { ...data, errors }
         });
     }
 };

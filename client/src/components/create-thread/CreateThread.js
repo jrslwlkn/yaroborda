@@ -39,7 +39,7 @@ class CreateThread extends Component {
         e.preventDefault();
 
         const {
-            title, imgFile, text, board
+            title, imgFile, text
         } = this.props.newThread;
         const obj = {
             title,

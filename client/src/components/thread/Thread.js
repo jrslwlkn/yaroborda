@@ -26,8 +26,8 @@ class Thread extends Component {
 
     addIdToNewPost = (id) => {
         const { newPost, updateNewPost } = this.props;
-        let text = `${newPost.text}\n>>>${id}\n`;
-        if (newPost.text[newPost.text.length - 1] === '\n') text = `${newPost.text}>>>${id}\n`;
+        let text = `${newPost.text}\n-> ${id}\n`;
+        if (newPost.text[newPost.text.length - 1] === '\n') text = `${newPost.text}-> ${id}\n`;
         updateNewPost({ ...newPost, text });
         console.log(text);
     }
