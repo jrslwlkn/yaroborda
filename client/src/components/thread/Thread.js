@@ -26,10 +26,11 @@ class Thread extends Component {
 
     addIdToNewPost = (id) => {
         const { newPost, updateNewPost } = this.props;
-        if (!newPost.text.includes(`-> ${id}`)) {
-            let text = `${newPost.text}\n-> ${id}\n`;
-            if (newPost.text === '') text = `${newPost.text}-> ${id}\n`;
+        if (!newPost.text.includes(`->${id}`)) {
+            let text = `${newPost.text}\n->${id}\n`;
+            if (newPost.text === '') text = `${newPost.text}->${id}\n`;
             updateNewPost({ ...newPost, text });
+            this.setState({ showForm: true });
             console.log(text);
         }
     }

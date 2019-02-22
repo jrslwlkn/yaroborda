@@ -16,6 +16,13 @@ class CreatePost extends Component {
         this.props.updateNewPost({ errors: [] });
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const { newPost } = this.props;
+        if (prevState.editorValue.toString('markdown') !== newPost.text) {
+            this.setState({ editorValue: MdEditor.createValueFromString(newPost.text, 'markdown') });
+        }
+    }
+
     onEditorChange = (editorValue) => {
         this.setState(state => {
             this.props.updateNewPost({ text: editorValue.toString('markdown') });
