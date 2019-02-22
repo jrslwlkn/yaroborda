@@ -117,7 +117,7 @@ export const updateNewThread = (obj) => dispatch => {
     });
 };
 
-// needs correction
+
 export const addPost = (obj) => dispatch => {
     const errors = [];
     if (obj.text.trim().length < 3) errors.push('Post cannot be so empty.');
@@ -125,7 +125,7 @@ export const addPost = (obj) => dispatch => {
     if (errors.length === 0) {
         dispatch(setLoading('newPost'));
 
-        let imgPromise;
+        let imgPromise = null;
         if (obj.img) {
             imgPromise = api.uploadImg(obj.imgFile)
                 .then(res => {
@@ -140,33 +140,51 @@ export const addPost = (obj) => dispatch => {
                 });
         }
 
-        // if (imgPromise typeof promise) {}
-
-        api.uploadImg(obj.imgFile)
-            .then(res => {
-                if (res.status === 200) {
-                    return {
-                        img: res.data.secure_url,
-                        img_height: res.data.height,
-                        img_width: res.data.width,
-                        img_byte_size: res.data.bytes
-                    };
-                }
-            })
-            .then(res => {
-                const payload = {
-                    ...res,
-                    text: obj.text,
-                    sage: obj.sage,
-                    thread: obj.thread
-                };
-                api.addPost(obj.board, obj.thread, payload).then(_ => {
+        if (imgPromise) {
+            imgPromise
+                .then(res => {
+                    api.addPost(obj.board, obj.thread, { ...res, ...obj })
+                        .then(_ => {
+                            dispatch({ type: ADD_POST });
+                            window.location.reload();
+                            // somehow scroll to the post #id
+                        });
+                })
+                .catch(console.log);
+        } else {
+            api.addPost(obj.board, obj.thread, obj)
+                .then(_ => {
                     dispatch({ type: ADD_POST });
                     window.location.reload();
                     // somehow scroll to the post #id
                 });
-            })
-            .catch(console.log);
+        }
+
+        // api.uploadImg(obj.imgFile)
+        //     .then(res => {
+        //         if (res.status === 200) {
+        //             return {
+        //                 img: res.data.secure_url,
+        //                 img_height: res.data.height,
+        //                 img_width: res.data.width,
+        //                 img_byte_size: res.data.bytes
+        //             };
+        //         }
+        //     })
+        //     .then(res => {
+        //         const payload = {
+        //             ...res,
+        //             text: obj.text,
+        //             sage: obj.sage,
+        //             thread: obj.thread
+        //         };
+        //         api.addPost(obj.board, obj.thread, payload).then(_ => {
+        //             dispatch({ type: ADD_POST });
+        //             window.location.reload();
+        //             // somehow scroll to the post #id
+        //         });
+        //     })
+        //     .catch(console.log);
     } else {
         dispatch({
             type: UPDATE_NEW_POST,

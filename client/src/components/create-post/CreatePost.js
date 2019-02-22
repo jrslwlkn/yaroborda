@@ -75,7 +75,7 @@ class CreatePost extends Component {
                                 </div>
                                 <div className="fl center w-20 mt2">
                                     <div className="flex items-center mb2">
-                                        <input className="mh2" onClick={toggleSage} type="checkbox" id="sage" value="sage" />
+                                        <input className="mh2" onChange={toggleSage} checked={newPost.sage} type="checkbox" id="sage" value="sage" />
                                         <label htmlFor="sage" className="b red">SAGE</label>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@ class CreatePost extends Component {
                             </div>
                             <div className="fl center w-20 mt2">
                                 <div className="flex items-center mb2">
-                                    <input className="mh2" onClick={toggleSage} type="checkbox" id="sage" value="sage" />
+                                    <input className="mh2" onChange={toggleSage} checked={newPost.sage} type="checkbox" id="sage" value="sage" />
                                     <label htmlFor="sage" className="b red">SAGE</label>
                                 </div>
                             </div>
