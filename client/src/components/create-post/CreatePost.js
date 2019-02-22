@@ -5,27 +5,46 @@ import MdEditor from 'react-rte';
 import { toolbarConfig } from '../create-thread/md-editor-config';
 import '../create-thread/md-editor.css';
 import './create-post.css';
+import Modal from '../modal';
 
 class CreatePost extends Component {
     state = {
-        editorValue: MdEditor.createEmptyValue()
+        editorValue: MdEditor.createValueFromString(this.props.newPost.text, 'markdown')
+    }
+
+    componentDidMount() {
+        this.props.updateNewPost({ errors: [] });
     }
 
     onEditorChange = (editorValue) => {
         this.setState(state => {
+            this.props.updateNewPost({ text: editorValue.toString('markdown') });
             if (editorValue !== state.editorValue) return { editorValue };
         });
         console.log(this.state.editorValue.toString('markdown'));
     }
 
     onFileChange = (e) => {
-        this.setState({ currentFile: e.target.files[0] });
+        e.preventDefault();
+        const { updateNewPost, newPost } = this.props;
+        const imgFile = e.target.files[0];
+        if (imgFile !== newPost.imgFile) updateNewPost({ imgFile });
         console.log(e.target.files[0]);
     }
 
+    sendForm = (e) => {
+        e.preventDefault();
+        const { addPost, newPost } = this.props;
+        const { errors, ...obj } = newPost;
+        addPost(obj);
+    }
+
     render() {
-        const { toggle } = this.props;
+        const { toggleForm, toggleSage, newPost } = this.props;
         const { editorValue } = this.state;
+        const { errors } = newPost;
+
+        const errMsgs = errors.map((text, i) => <Modal key={i} id={i} text={text} isError />);
 
         let form;
         if (window.innerWidth > 777) {
@@ -34,10 +53,11 @@ class CreatePost extends Component {
                     <article id="drag" className="mw5 mw6-ns absolute ba bg-white">
                         <div id="drag-header" className="b f4 bg-near-black white pv2 ph3 tc">
                             Add a post
-                            <button onClick={toggle} type="button" className="cancel pointer fr pa0 ph1 mb1 bg-purple white outline-0">x</button>
+                            <button onClick={toggleForm} type="button" className="cancel pointer fr pa0 ph1 mb1 bg-purple white outline-0">x</button>
                         </div>
                         <div className="pa3 bt">
-                            <form onSubmit={() => '...'} encType="multipart/form-data">
+                            {errMsgs}
+                            <form onSubmit={this.sendForm} encType="multipart/form-data">
                                 <div className="fr w-100 cancel">
                                     <MdEditor
                                         toolbarConfig={toolbarConfig}
@@ -51,11 +71,11 @@ class CreatePost extends Component {
                                 </div>
                                 <div className="fl w-50">
                                     <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">add an image</label>
-                                    <input type="file" accept="image/*" name="picture" id="picture" className="dn" />
+                                    <input type="file" accept="image/*" name="picture" id="picture" onChange={this.onFileChange} className="dn" />
                                 </div>
                                 <div className="fl center w-20 mt2">
                                     <div className="flex items-center mb2">
-                                        <input className="mh2" type="checkbox" id="sage" value="sage" />
+                                        <input className="mh2" onClick={toggleSage} type="checkbox" id="sage" value="sage" />
                                         <label htmlFor="sage" className="b red">SAGE</label>
                                     </div>
                                 </div>
@@ -73,9 +93,10 @@ class CreatePost extends Component {
                     <div className="pa2">
                         <div className="b f4 bg-white pv2 ph3 tc mv2 b--black ba">
                             Add a post
-                            <button onClick={toggle} type="button" className="pointer fr pa0 ph1 mb1 bg-purple white outline-0">x</button>
+                            <button onClick={toggleForm} type="button" className="pointer fr pa0 ph1 mb1 bg-purple white outline-0">x</button>
                         </div>
-                        <form onSubmit={() => '...'} encType="multipart/form-data">
+                        <form onSubmit={this.sendForm} encType="multipart/form-data">
+                            {errMsgs}
                             <div className="fr w-100 cancel">
                                 <MdEditor
                                     toolbarConfig={toolbarConfig}
@@ -89,11 +110,11 @@ class CreatePost extends Component {
                             </div>
                             <div className="fl w-50">
                                 <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">add an image</label>
-                                <input type="file" accept="image/*" name="picture" id="picture" className="dn" />
+                                <input type="file" accept="image/*" onChange={this.onFileChange} name="picture" id="picture" className="dn" />
                             </div>
                             <div className="fl center w-20 mt2">
                                 <div className="flex items-center mb2">
-                                    <input className="mh2" type="checkbox" id="sage" value="sage" />
+                                    <input className="mh2" onClick={toggleSage} type="checkbox" id="sage" value="sage" />
                                     <label htmlFor="sage" className="b red">SAGE</label>
                                 </div>
                             </div>

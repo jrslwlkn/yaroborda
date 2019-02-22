@@ -67,11 +67,11 @@ class CreateThread extends Component {
                     <article id="drag" className="mw5 mw6-ns absolute ba bg-white">
                         <div id="drag-header" className="b f4 bg-near-black white pv2 ph3 tc">
                             Create a new thread
-                            <button onClick={toggle} type="button" className="pointer fr pa0 ph1 mb1 bg-purple white outline-0">x</button>
+                            <button onClick={toggle} type="button" className="cancel pointer fr pa0 ph1 mb1 bg-purple white outline-0">x</button>
                         </div>
                         <div className="pa3 bt">
                             {errMsgs}
-                            <form method="POST" onSubmit={this.sendForm} encType="multipart/form-data">
+                            <form onSubmit={this.sendForm} encType="multipart/form-data">
                                 <div className="fl w-70">
                                     <input placeholder="thread title" id="name" value={title} onChange={this.onTitleChange} className="cancel input-reset ba b--black pa2 mb2 db w-100 outline-0" type="text" />
                                 </div>

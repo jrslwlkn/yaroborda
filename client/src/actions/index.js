@@ -121,11 +121,26 @@ export const updateNewThread = (obj) => dispatch => {
 export const addPost = (obj) => dispatch => {
     const errors = [];
     if (obj.text.trim().length < 3) errors.push('Post cannot be so empty.');
-    if (obj.title.trim().length === 0) errors.push('New threads (op post) must have a title.');
-    if (!obj.imgFile) errors.push('New threads (op post) must contain an image.');
 
     if (errors.length === 0) {
-        dispatch(setLoading('newThread'));
+        dispatch(setLoading('newPost'));
+
+        let imgPromise;
+        if (obj.img) {
+            imgPromise = api.uploadImg(obj.imgFile)
+                .then(res => {
+                    if (res.status === 200) {
+                        return {
+                            img: res.data.secure_url,
+                            img_height: res.data.height,
+                            img_width: res.data.width,
+                            img_byte_size: res.data.bytes
+                        };
+                    }
+                });
+        }
+
+        // if (imgPromise typeof promise) {}
 
         api.uploadImg(obj.imgFile)
             .then(res => {
@@ -139,20 +154,22 @@ export const addPost = (obj) => dispatch => {
                 }
             })
             .then(res => {
-                const thread = {
+                const payload = {
                     ...res,
-                    title: obj.title,
                     text: obj.text,
+                    sage: obj.sage,
+                    thread: obj.thread
                 };
-                api.addThread(obj.board, thread).then(newThread => {
-                    dispatch({ type: ADD_THREAD });
+                api.addPost(obj.board, obj.thread, payload).then(_ => {
+                    dispatch({ type: ADD_POST });
                     window.location.reload();
+                    // somehow scroll to the post #id
                 });
             })
             .catch(console.log);
     } else {
         dispatch({
-            type: UPDATE_NEW_THREAD,
+            type: UPDATE_NEW_POST,
             payload: { ...obj, errors }
         });
     }

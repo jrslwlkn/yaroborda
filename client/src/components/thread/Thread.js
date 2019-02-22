@@ -9,14 +9,15 @@ import CreatePost from '../create-post';
 import Spinner from '../spinner';
 
 import Api from '../../BordaApi';
-import { getThread, updateNewPost } from '../../actions';
+import { getThread, updateNewPost, addPost } from '../../actions';
 
 class Thread extends Component {
     api = new Api();
 
     state = {
         showForm: false,
-        loading: true
+        loading: true,
+        showBox: false
     }
 
     toggleForm = () => this.setState(state => ({
@@ -31,26 +32,49 @@ class Thread extends Component {
         console.log(text);
     }
 
+    toggleSage = () => {
+        const { updateNewPost, newPost } = this.props;
+        const sage = !newPost.sage;
+        console.log(!newPost.sage);
+        updateNewPost({ ...newPost, sage });
+    }
+
+    onAdd = (obj) => {
+        this.props.addPost(obj);
+        if (this.api.validateNewPost(false, obj)) {
+            this.toggleForm();
+            this.setState({ showBox: true });
+        }
+    }
+
     componentDidMount = () => {
         if (this.props.newPost.text[this.props.newPost.text.length - 1] === '\n') console.log('/n');
 
-        const { board, thread } = this.props.match.params;
-        if (!this.api.validateNumber(thread)) return this.props.history.push('/no/such/page/found');
+        const {
+            getThread, updateNewPost, history, match
+        } = this.props;
+        const { board, thread } = match.params;
+
+        if (!this.api.validateNumber(thread)) return history.push('/no/such/page/found');
+
         this.api.getOpPost(board, thread)
             .then(op => {
-                if (!op) return this.props.history.push('/no/such/page/found');
-                this.props.getThread(board, thread, op);
+                if (!op) return history.push('/no/such/page/found');
+                getThread(board, thread, op);
+                updateNewPost({ board, thread });
                 this.setState({ loading: false });
             })
             .catch(err => {
                 console.log(err);
-                this.props.history.push('/no/such/page/found');
+                history.push('/no/such/page/found');
             });
     }
 
     render() {
         const { showForm, loading } = this.state;
-        const { thread, newPost, match } = this.props;
+        const {
+            thread, newPost, match, updateNewPost
+        } = this.props;
         const { threadIsLoading, posts } = thread;
 
         let content = <Spinner />;
@@ -58,7 +82,15 @@ class Thread extends Component {
             content = (
                 <>
                     {showForm
-                        ? <CreatePost toggle={this.toggleForm} />
+                        ? (
+                            <CreatePost
+                                toggleForm={this.toggleForm}
+                                addPost={this.onAdd}
+                                newPost={newPost}
+                                updateNewPost={updateNewPost}
+                                toggleSage={this.toggleSage}
+                            />
+                        )
                         : <TopBigButton value="add new post" toggle={this.toggleForm} />
                     }
 
@@ -80,4 +112,4 @@ const mapStateToProps = state => ({
     newPost: state.newPost
 });
 
-export default connect(mapStateToProps, { getThread, updateNewPost })(withRouter(Thread));
+export default connect(mapStateToProps, { getThread, updateNewPost, addPost })(withRouter(Thread));
