@@ -158,7 +158,6 @@ export const addPost = (obj) => dispatch => {
     }
 };
 
-
 export const updateNewPost = (obj) => dispatch => dispatch({
     type: UPDATE_NEW_POST,
     payload: obj

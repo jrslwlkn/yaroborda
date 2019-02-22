@@ -9,7 +9,7 @@ import CreatePost from '../create-post';
 import Spinner from '../spinner';
 
 import Api from '../../BordaApi';
-import { getThread } from '../../actions';
+import { getThread, updateNewPost } from '../../actions';
 
 class Thread extends Component {
     api = new Api();
@@ -24,10 +24,16 @@ class Thread extends Component {
     }))
 
     addIdToNewPost = (id) => {
-        console.log(`reply to id ${id}`);
+        const { newPost, updateNewPost } = this.props;
+        let text = `${newPost.text}\n>>>${id}\n`;
+        if (newPost.text[newPost.text.length - 1] === '\n') text = `${newPost.text}>>>${id}\n`;
+        updateNewPost({ ...newPost, text });
+        console.log(text);
     }
 
     componentDidMount = () => {
+        if (this.props.newPost.text[this.props.newPost.text.length - 1] === '\n') console.log('/n');
+
         const { board, thread } = this.props.match.params;
         if (!this.api.validateNumber(thread)) return this.props.history.push('/no/such/page/found');
         this.api.getOpPost(board, thread)
@@ -74,4 +80,4 @@ const mapStateToProps = state => ({
     newPost: state.newPost
 });
 
-export default connect(mapStateToProps, { getThread })(withRouter(Thread));
+export default connect(mapStateToProps, { getThread, updateNewPost })(withRouter(Thread));
