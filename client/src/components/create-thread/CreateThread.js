@@ -54,7 +54,6 @@ class CreateThread extends Component {
             board: this.props.board
         };
         console.log(obj);
-        console.log(obj.text.trim());
         this.props.addThread(obj);
     }
 

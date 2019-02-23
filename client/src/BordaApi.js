@@ -54,7 +54,10 @@ export default class BordaApi {
     }
 
     isDirty = (post) => {
-        if (post.text.length > 2 || post.title.length > 0 || post.imgFile) return true;
+        if (typeof post.title === 'string') {
+            if (post.title.length > 0) return true;
+        }
+        if (post.text.length > 2 || post.imgFile) return true;
         return false;
     }
 

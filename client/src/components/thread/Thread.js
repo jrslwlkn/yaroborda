@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Prompt } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
 import OpPost from '../op-post';
@@ -7,6 +8,7 @@ import Post from '../post';
 import TopBigButton from '../top-big-button';
 import CreatePost from '../create-post';
 import Spinner from '../spinner';
+import SpinnerBox from '../spinner-box';
 
 import Api from '../../BordaApi';
 import { getThread, updateNewPost, addPost } from '../../actions';
@@ -48,25 +50,19 @@ class Thread extends Component {
             this.toggleForm();
             this.setState({ showBox: true });
 
-            let id;
             const { board, thread } = this.props.match.params;
             this.api.getLastPost(board, thread)
                 .then(post => {
                     window.location.reload();
-                    id = post.id;
+                    // this.props.history.push(`/${board}/${thread}#${post.id}`);
+                    setTimeout(() => {
+                        window.scrollTo(0, this.lastPostRef.current.offsetTop);
+                    });
                 });
-            document.getElementById(id).scrollIntoView();
         }
     }
 
-    // scrollTest = () => {
-    //     document.getElementById(`67`).scrollIntoView();
-    // }
-
     componentDidMount = () => {
-        console.log(window.location.hash);
-        if (this.props.newPost.text[this.props.newPost.text.length - 1] === '\n') console.log('/n');
-
         const {
             getThread, updateNewPost, history, match
         } = this.props;
@@ -87,8 +83,16 @@ class Thread extends Component {
             });
     }
 
+    componentDidUpdate = () => {
+        if (this.api.isDirty(this.props.newPost)) {
+            window.onbeforeunload = () => true;
+        } else {
+            window.onbeforeunload = undefined;
+        }
+    }
+
     render() {
-        const { showForm, loading } = this.state;
+        const { showForm, loading, showBox } = this.state;
         const {
             thread, newPost, match, updateNewPost
         } = this.props;
@@ -98,6 +102,11 @@ class Thread extends Component {
         if (!loading && !threadIsLoading) {
             content = (
                 <>
+                    <Prompt
+                        message={'Are you sure you want to leave the page?\nYour post may not be saved.'}
+                        when={this.api.isDirty(newPost)}
+                    />
+                    {showBox && <SpinnerBox />}
                     {showForm
                         ? (
                             <CreatePost
@@ -111,10 +120,23 @@ class Thread extends Component {
                         : <TopBigButton value="add new post" toggle={this.toggleForm} />
                     }
 
-                    <OpPost {...thread.opPost} func={() => this.addIdToNewPost(thread.opPost.id)} link={`${match.url}`} size={this.api.getSizeBase64(thread.opPost.img_byte_size)} />
+                    <OpPost
+                        {...thread.opPost}
+                        func={() => this.addIdToNewPost(thread.opPost.id)}
+                        link={`${match.url}`}
+                        size={this.api.getSizeBase64(thread.opPost.img_byte_size)}
+                    />
 
                     {posts.length
-                        ? posts.map(post => <Post key={post.id} {...post} func={() => this.addIdToNewPost(post.id)} link={`${match.url}`} size={this.api.getSizeBase64(post.img_byte_size)} />)
+                        ? posts.map(post => (
+                            <Post
+                                key={post.id}
+                                {...post}
+                                func={() => this.addIdToNewPost(post.id)}
+                                link={`${match.url}`}
+                                size={this.api.getSizeBase64(post.img_byte_size)}
+                            />
+                        ))
                         : null}
                 </>
             );
@@ -129,4 +151,5 @@ const mapStateToProps = state => ({
     newPost: state.newPost
 });
 
-export default connect(mapStateToProps, { getThread, updateNewPost, addPost })(withRouter(Thread));
+export default connect(mapStateToProps,
+    { getThread, updateNewPost, addPost })(withRouter(Thread));

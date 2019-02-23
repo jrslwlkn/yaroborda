@@ -147,8 +147,6 @@ export const addPost = (data) => dispatch => {
                     api.addPost(obj.board, obj.thread, { ...res, ...obj })
                         .then(_ => {
                             dispatch({ type: ADD_POST });
-                        // TODO
-                        // somehow scroll to the post #id
                         });
                 })
                 .catch(console.log);
@@ -156,8 +154,6 @@ export const addPost = (data) => dispatch => {
             api.addPost(obj.board, obj.thread, obj)
                 .then(_ => {
                     dispatch({ type: ADD_POST });
-                    // TODO
-                    // somehow scroll to the post #id
                 })
                 .catch(console.log);
         }
