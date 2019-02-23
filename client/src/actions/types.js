@@ -8,12 +8,3 @@ export const UPDATE_NEW_THREAD = 'UPDATE_NEW_THREAD';
 export const UPDATE_NEW_POST = 'UPDATE_NEW_POST';
 export const NEW_THREAD_LOADING = 'NEW_THREAD_LOADING';
 export const NEW_POST_LOADING = 'NEW_POST_LOADING';
-
-// export const CHANGE_THREADS_SLICE = 'CHANGE_THREADS_SLICE';
-// export const LINK_NOT_FOUND = 'LINK_NOT_FOUND';
-// export const SET_THREAD_PIC = 'SET_THREAD_PIC';
-// export const SET_POST_PIC = 'SET_POST_PIC';
-// export const CLEAR_NEW_POST = 'CLEAR_NEW_POST';
-// export const CLEAR_NEW_THREAD = 'CLEAR_NEW_THREAD';
-// export const SET_THREAD_SLICE = 'SET_THREAD_SLICE';
-// export const CLEAR_THREAD_SLICE = 'CLEAR_THREAD_SLICE';

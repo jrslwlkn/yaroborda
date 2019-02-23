@@ -39,6 +39,12 @@ class CreatePost extends Component {
         console.log(e.target.files[0]);
     }
 
+    removeErr = (errId) => {
+        const { newPost, updateNewPost } = this.props;
+        const errors = newPost.errors.filter((error, i) => i !== errId);
+        updateNewPost({ ...newPost, errors });
+    }
+
     sendForm = (e) => {
         e.preventDefault();
         const { addPost, newPost } = this.props;
@@ -51,7 +57,7 @@ class CreatePost extends Component {
         const { editorValue } = this.state;
         const { errors } = newPost;
 
-        const errMsgs = errors.map((text, i) => <Modal key={i} id={i} text={text} isError />);
+        const errMsgs = errors.map((text, i) => <Modal key={i} id={i} onRemove={() => this.removeErr(i)} text={text} isError />);
 
         let form;
         if (window.innerWidth > 777) {

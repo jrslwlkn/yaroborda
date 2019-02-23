@@ -59,9 +59,9 @@ class Thread extends Component {
         }
     }
 
-    scrollTest = () => {
-        document.getElementById(`67`).scrollIntoView();
-    }
+    // scrollTest = () => {
+    //     document.getElementById(`67`).scrollIntoView();
+    // }
 
     componentDidMount = () => {
         console.log(window.location.hash);

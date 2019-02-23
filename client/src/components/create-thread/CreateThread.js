@@ -28,6 +28,12 @@ class CreateThread extends Component {
         this.props.updateNewThread({ title: e.target.value });
     }
 
+    removeErr = (errId) => {
+        const { newThread, updateNewThread } = this.props;
+        const errors = newThread.errors.filter((error, i) => i !== errId);
+        updateNewThread({ ...newThread, errors });
+    }
+
     onFileChange = (e) => {
         e.preventDefault();
         const imgFile = e.target.files[0];
@@ -58,7 +64,7 @@ class CreateThread extends Component {
         const { editorValue } = this.state;
         const { title, errors } = newThread;
 
-        const errMsgs = errors.map((text, i) => <Modal key={i} id={i} text={text} isError />);
+        const errMsgs = errors.map((text, i) => <Modal key={i} onRemove={() => this.removeErr(i)} id={i} text={text} isError />);
 
         let form;
         if (window.innerWidth > 777) {
