@@ -55,7 +55,9 @@ class CreatePost extends Component {
     render() {
         const { toggleForm, toggleSage, newPost } = this.props;
         const { editorValue } = this.state;
-        const { errors } = newPost;
+        const { errors, imgFile } = newPost;
+
+        const buttonText = imgFile && imgFile.name ? <span className="b">selected <span className="r purple">{`'${imgFile.name}'`}</span></span> : 'add an image';
 
         const errMsgs = errors.map((text, i) => <Modal key={i} id={i} onRemove={() => this.removeErr(i)} text={text} isError />);
 
@@ -83,7 +85,7 @@ class CreatePost extends Component {
                                     />
                                 </div>
                                 <div className="fl w-50">
-                                    <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">add an image</label>
+                                    <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">{buttonText}</label>
                                     <input type="file" accept="image/*" name="picture" id="picture" onChange={this.onFileChange} className="dn" />
                                 </div>
                                 <div className="fl center w-20 mt2">
@@ -122,7 +124,7 @@ class CreatePost extends Component {
                                 />
                             </div>
                             <div className="fl w-50">
-                                <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">add an image</label>
+                                <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">{buttonText}</label>
                                 <input type="file" accept="image/*" onChange={this.onFileChange} name="picture" id="picture" className="dn" />
                             </div>
                             <div className="fl center w-20 mt2">

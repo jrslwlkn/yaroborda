@@ -61,7 +61,9 @@ class CreateThread extends Component {
     render() {
         const { toggle, newThread } = this.props;
         const { editorValue } = this.state;
-        const { title, errors } = newThread;
+        const { title, errors, imgFile } = newThread;
+
+        const buttonText = imgFile && imgFile.name ? <span className="b">selected <span className="r purple">{`'${imgFile.name}'`}</span></span> : 'add an image';
 
         const errMsgs = errors.map((text, i) => <Modal key={i} onRemove={() => this.removeErr(i)} id={i} text={text} isError />);
 
@@ -95,7 +97,7 @@ class CreateThread extends Component {
                                     />
                                 </div>
                                 <div className="fr w-100">
-                                    <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">add an image</label>
+                                    <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">{buttonText}</label>
                                     <input type="file" accept="image/*" name="picture" id="picture" onChange={this.onFileChange} className="dn" />
                                 </div>
                             </form>
@@ -133,7 +135,7 @@ class CreateThread extends Component {
                                 />
                             </div>
                             <div className="fr w-100">
-                                <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">add an image</label>
+                                <label htmlFor="picture" className="ba bg-white pa2 mb2 db pointer tc">{buttonText}</label>
                                 <input type="file" accept="image/*" onChange={this.onFileChange} name="picture" id="picture" className="dn" />
                             </div>
                         </form>
