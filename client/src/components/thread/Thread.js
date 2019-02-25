@@ -50,15 +50,14 @@ class Thread extends Component {
             this.toggleForm();
             this.setState({ showBox: true });
 
-            const { board, thread } = this.props.match.params;
-            this.api.getLastPost(board, thread)
-                .then(post => {
-                    window.location.reload();
-                    // this.props.history.push(`/${board}/${thread}#${post.id}`);
-                    setTimeout(() => {
-                        window.scrollTo(0, this.lastPostRef.current.offsetTop);
-                    });
-                });
+            // const { board, thread } = this.props.match.params;
+            // this.api.getLastPost(board, thread)
+            //     .then(post => {
+            //         // window.location.reload();
+            //         console.log(post.id);
+            //         // this.props.history.push(`/${board}/${thread}/#${post.id}`);
+            //         // window.scrollTo(0, this.lastPostRef.current.offsetTop);
+            //     });
         }
     }
 

@@ -10,10 +10,16 @@
     margin: 0;
 }
 
+.post-text a {
+    font-weight: bold;
+    color: blueviolet;
+    text-decoration: none;
+}
+
 blockquote {
-    display: inline-block;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 40%;
 }
 
 blockquote p {
