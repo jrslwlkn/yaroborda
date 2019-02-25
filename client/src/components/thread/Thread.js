@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Prompt } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
 import OpPost from '../op-post';
@@ -32,9 +31,9 @@ class Thread extends Component {
             let text = `${newPost.text}\n->${id}\n`;
             if (newPost.text === '') text = `${newPost.text}->${id}\n`;
             updateNewPost({ ...newPost, text });
-            this.setState({ showForm: true });
             console.log(text);
         }
+        this.setState({ showForm: true });
     }
 
     toggleSage = () => {
@@ -101,10 +100,6 @@ class Thread extends Component {
         if (!loading && !threadIsLoading) {
             content = (
                 <>
-                    <Prompt
-                        message={'Are you sure you want to leave the page?\nYour post may not be saved.'}
-                        when={this.api.isDirty(newPost)}
-                    />
                     {showBox && <SpinnerBox />}
                     {showForm
                         ? (

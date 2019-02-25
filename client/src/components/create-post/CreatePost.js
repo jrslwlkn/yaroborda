@@ -65,7 +65,7 @@ class CreatePost extends Component {
         if (window.innerWidth > 777) {
             form = (
                 <Draggable cancel=".cancel">
-                    <article id="drag" className="mw5 mw6-ns absolute ba bg-white">
+                    <article id="drag" className="mw5 mw6-ns absolute ba bg-white create-post-lg">
                         <div id="drag-header" className="b f4 bg-near-black white pv2 ph3 tc">
                             Add a post
                             <button onClick={toggleForm} type="button" className="cancel pointer fr pa0 ph1 mb1 bg-purple white outline-0">x</button>

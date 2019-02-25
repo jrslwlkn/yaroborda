@@ -1,16 +1,23 @@
 #drag {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
 }
 
 #drag-header {
-  cursor: move;
+    cursor: move;
 }
 
 textarea {
-  resize: vertical;
-  overflow: auto;
+    resize: vertical;
+    overflow: auto;
+}
+
+.create-post-lg {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
