@@ -1,4 +1,6 @@
 import React from 'react';
+
+import ShowMoreText from 'react-show-more-text';
 import Md from 'react-markdown/with-html';
 import mdToHtml from 'marked';
 
@@ -18,9 +20,11 @@ export default function PostText({ text }) {
 
     return (
         <div className="v-top lh-little mv0 tl post-text">
-            <Md source={mdToHtml(updatedMdText)} escapeHtml={false} />
-            <ShowFullText />
-            <Replies />
+            <ShowMoreText>
+                <Md source={mdToHtml(updatedMdText)} escapeHtml={false} />
+            </ShowMoreText>
+            {/* <ShowFullText />
+            <Replies /> */}
         </div>
     );
 }

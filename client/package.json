@@ -17,6 +17,7 @@
         "react-rte": "^0.16.1",
         "react-scripts": "^2.1.5",
         "react-scroll-up-button": "^1.6.4",
+        "react-show-more-text": "^1.0.4",
         "redux": "^4.0.1",
         "redux-thunk": "^2.3.0"
     },
