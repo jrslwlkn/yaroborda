@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-// to be removed
-import ShowMoreText from 'react-show-more-text';
 import Md from 'react-markdown/with-html';
 import mdToHtml from 'marked';
 
@@ -17,16 +15,27 @@ class PostText extends Component {
     }
 
     componentDidMount = () => {
-        const { text } = this.props;
+        let { text } = this.props;
+        const slicedText = text.slice(0, 100);
+        text = text === slicedText ? text : `${slicedText}...`;
 
-        // to be changed
-        if (text.length > 100) {
-            this.setState({ isShort: false });
-        }
+        this.setState({
+            isShort: text === slicedText,
+            text
+        });
     }
 
     toggleFullText = () => {
-        this.setState(state => ({ isRevealed: !state.isRevealed }));
+        let { text } = this.props;
+        this.setState(state => {
+            if (state.isRevealed) {
+                text = text.slice(0, 100);
+            }
+            return {
+                isRevealed: !state.isRevealed,
+                text
+            };
+        });
     }
 
 
@@ -40,20 +49,14 @@ class PostText extends Component {
     }
 
     render() {
-        const { text } = this.props;
+        const { isRevealed, text, isShort } = this.state;
         const updatedMdText = text.replace(/(->([0-9]+))/gm, '[$1](javascript:someFunc($2))');
 
         return (
             <div className="v-top lh-little mv0 tl post-text">
-                <ShowMoreText
-                    lines={8}
-                    more="Show full post"
-                    less="Collapse it"
-                >
-                    <Md source={mdToHtml(updatedMdText)} escapeHtml={false} />
-                </ShowMoreText>
-                {/* <ShowFullText />
-            <Replies /> */}
+                <Md source={mdToHtml(updatedMdText)} escapeHtml={false} />
+                { !isShort && <ShowFullText toggle={this.toggleFullText} revealed={isRevealed} />}
+                {/* <Replies /> */}
             </div>
         );
     }

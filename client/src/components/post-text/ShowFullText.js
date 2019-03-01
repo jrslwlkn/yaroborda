@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function ShowFullText() {
+export default function ShowFullText({ toggle, revealed }) {
     return (
-        <span className="center w-100 tc pointer purple hover-white hover-bg-purple dib mv2">
-        Show full text...
-        </span>
+        <div onClick={toggle} className="center w-100 tc pointer purple hover-white hover-bg-purple dib mv2">
+            {revealed ? 'Collapse it!' : 'Show full post...'}
+        </div>
     );
 }
