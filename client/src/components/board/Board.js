@@ -32,7 +32,7 @@ class Board extends Component {
         const { currentSlice } = this.state;
         const lastIndex = list.length - 1;
 
-        if (currentSlice < lastIndex) {
+        if (currentSlice <= lastIndex) {
             return this.setState(state => ({ currentSlice: state.currentSlice + 1 }));
         }
     }
