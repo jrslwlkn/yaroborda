@@ -11,12 +11,13 @@ class PostText extends Component {
     state = {
         isRevealed: false,
         isShort: true,
-        text: ''
+        text: '',
+        sliceEnd: 1250
     }
 
     componentDidMount = () => {
         let { text } = this.props;
-        const slicedText = text.slice(0, 100);
+        const slicedText = text.slice(0, this.state.sliceEnd);
         text = text === slicedText ? text : `${slicedText}...`;
 
         this.setState({
@@ -29,7 +30,7 @@ class PostText extends Component {
         let { text } = this.props;
         this.setState(state => {
             if (state.isRevealed) {
-                text = text.slice(0, 100);
+                text = text.slice(0, this.state.sliceEnd);
             }
             return {
                 isRevealed: !state.isRevealed,
