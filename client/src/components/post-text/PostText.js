@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Md from 'react-markdown/with-html';
 import mdToHtml from 'marked';
@@ -20,6 +21,10 @@ class PostText extends Component {
         const slicedText = text.slice(0, this.state.sliceEnd);
         text = text === slicedText ? text : `${slicedText}...`;
 
+        window.revealPost = (id) => {
+            this.displayPost(this.getPostById(id));
+        };
+
         this.setState({
             isShort: text === slicedText,
             text
@@ -39,19 +44,27 @@ class PostText extends Component {
         });
     }
 
-
-    otherFunc = () => console.log('other f');
-
-    someFunc = () => {
-        window.someFunc = (id) => {
-            this.otherFunc();
-            console.log(id);
-        };
+    getPostById = (id) => {
+        //filter from redux
+        const { thread } = this.props;
+        const { posts, opPost } = thread;
+        if (opPost.id === id) return opPost;
+        else {
+            const thePost = posts.find(post => post.id === id)
+            if (thePost) return thePost;
+            else return {text: '', img: ''}
+        }
     }
+
+    displayPost = (post) => {
+        // instead of clg will be actual f that renders the post
+        console.log(`text ${post.text}; replies ${post.replies}`)
+    }
+
 
     render() {
         const { isRevealed, text, isShort } = this.state;
-        const updatedMdText = text.replace(/(->([0-9]+))/gm, '[$1](javascript:someFunc($2))');
+        const updatedMdText = text.replace(/(->([0-9]+))/gm, '[$1](javascript:revealPost($2))');
 
         return (
             <div className="v-top lh-little mv0 tl post-text">
@@ -63,4 +76,8 @@ class PostText extends Component {
     }
 }
 
-export default PostText;
+const mapStateToProps = state => ({
+    thread: state.thread
+});
+
+export default connect(mapStateToProps)(PostText);
