@@ -90,14 +90,15 @@ app.get('/', (req, res) => {
 // GET all threads from the board - list of objects
 app.get('/board/:board', (req, res) => {
   console.log(req.params.board);
-  return;
-  db.collection('boards')
+  db.collection('posts')
     .get()
+    .orderByChild('board')
     .then(snapshot => {
       const data = [];
       snapshot.forEach(doc => {
         data.push(doc.data());
       });
+      console.log(data);
       res.send(data);
     })
     .catch(err => {
