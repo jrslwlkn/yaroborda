@@ -31,7 +31,9 @@
         "cors": "^2.8.5",
         "dotenv": "^6.2.0",
         "express": "^4.16.4",
-        "helmet": "^3.15.0",
+        "firebase": "^7.11.0",
+        "firebase-admin": "^8.10.0",
+        "helmet": "^3.21.3",
         "knex": "^0.16.3",
         "nodemon": "^1.18.9",
         "pg": "^7.7.1"
