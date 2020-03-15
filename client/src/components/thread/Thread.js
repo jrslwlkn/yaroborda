@@ -18,11 +18,19 @@ class Thread extends Component {
     state = {
         showForm: false,
         loading: true,
-        showBox: false
+        showBox: false,
+        
     }
 
+    replies = {}
+
+    // updateReplies = (newReplies) => {
+    //     console.log(newReplies)
+    //     this.setState({ replies: newReplies })
+    // }
+
     toggleForm = () => this.setState(state => ({
-        showForm: !state.showForm
+        showForm: !state.showForm 
     }))
 
     addIdToNewPost = (id) => {
@@ -60,6 +68,8 @@ class Thread extends Component {
         }
     }
 
+    
+
     componentDidMount = () => {
         const {
             getThread, updateNewPost, history, match
@@ -71,7 +81,7 @@ class Thread extends Component {
         this.api.getOpPost(board, thread)
             .then(op => {
                 if (!op) return history.push('/no/such/page/found');
-                getThread(board, thread, op);
+                getThread(board, thread, op)
                 updateNewPost({ board, thread });
                 this.setState({ loading: false });
             })
@@ -95,6 +105,11 @@ class Thread extends Component {
             thread, newPost, match, updateNewPost
         } = this.props;
         const { threadIsLoading, posts } = thread;
+
+        thread.posts.forEach(post => this.replies[post.id] = [])
+        this.replies.op = []
+        // this.updateReplies(replies)
+        console.log(this.replies)
 
         let content = <Spinner />;
         if (!loading && !threadIsLoading) {
@@ -129,6 +144,8 @@ class Thread extends Component {
                                 func={() => this.addIdToNewPost(post.id)}
                                 link={`${match.url}`}
                                 size={this.api.getSizeBase64(post.img_byte_size)}
+                                updateReplies={this.updateReplies}
+                                replies={this.replies}
                             />
                         ))
                         : null}

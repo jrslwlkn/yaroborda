@@ -1,8 +1,41 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const bodyParser = require('body-parser');
+
+const firebase = require('firebase/app');
+const admin = require('firebase-admin');
+
+const serviceAccount = require('./firebase.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+const db = admin.firestore();
+
+// db.collection('posts').get()
+//   .then((snapshot) => {
+//     snapshot.forEach((doc) => {
+//       console.log(doc.id, '=>', doc.data());
+//     });
+//   })
+//   .catch((err) => {
+//     console.log('Error getting documents', err);
+//   });
+// const firebaseConfig = {
+//   apiKey: 'AIzaSyBVrKKkjbmCwSN-vxg5orEci0Gr3RYLfBc',
+//   authDomain: 'yaroborda.firebaseapp.com',
+//   databaseURL: 'https://yaroborda.firebaseio.com',
+//   projectId: 'yaroborda',
+//   storageBucket: 'yaroborda.appspot.com',
+//   messagingSenderId: '703970407890',
+//   appId: '1:703970407890:web:9853aede0446ef3b6e440b',
+//   measurementId: 'G-DB9JPF8YQQ',
+// };
+
+// firebase.initializeApp(firebaseConfig);
 
 const cloudinary = require('cloudinary').v2;
 
@@ -18,8 +51,8 @@ const knex = require('knex')({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-  },
+    database: process.env.DB_NAME
+  }
 });
 
 const app = express();
@@ -27,35 +60,63 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(helmet());
+// app.use(helmet());
 
 // GET all boards name, url and topic
 app.get('/', (req, res) => {
-  knex
-    .select('*')
-    .from('board')
-    .then(data => {
-      if (!data[0]) {
-        res.status(404).send({ error: 'No boards found...' });
-      } else res.send(data);
+  db.collection('boards')
+    .get()
+    .then(snapshot => {
+      const data = [];
+      snapshot.forEach(doc => {
+        data.push(doc.data());
+      });
+      res.send(data);
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
     });
+  // knex
+  //   .select('*')
+  //   .from('board')
+  //   .then(data => {
+  //     console.log(data);
+  //     if (!data[0]) {
+  //       res.status(404).send({ error: 'No boards found...' });
+  //     } else res.send(data);
+  //   });
 });
 
 // GET all threads from the board - list of objects
 app.get('/board/:board', (req, res) => {
-  knex
-    .select('*')
-    .from('thread')
-    .where('board', req.params.board)
-    .orderBy('last_post', 'desc')
-    .limit(100)
-    .then(data => {
-      if (!data[0]) {
-        res.status(404).send({ error: 'No threads found on this board' });
-      } else {
-        res.send(data);
-      }
+  console.log(req.params.board);
+  return;
+  db.collection('boards')
+    .get()
+    .then(snapshot => {
+      const data = [];
+      snapshot.forEach(doc => {
+        data.push(doc.data());
+      });
+      res.send(data);
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
     });
+
+  // knex
+  //   .select('*')
+  //   .from('thread')
+  //   .where('board', req.params.board)
+  //   .orderBy('last_post', 'desc')
+  //   .limit(100)
+  //   .then(data => {
+  //     if (!data[0]) {
+  //       res.status(404).send({ error: 'No threads found on this board' });
+  //     } else {
+  //       res.send(data);
+  //     }
+  //   });
 });
 
 // GET the thread's posts - list of objects
@@ -65,7 +126,7 @@ app.get('/thread/:board/:thread', (req, res) => {
     .from('post')
     .where({
       thread: req.params.thread,
-      board: req.params.board,
+      board: req.params.board
     })
     .orderBy('timestamp', 'esc')
     .then(data => {
@@ -94,7 +155,7 @@ app.get('/lastpost/:board/:thread', (req, res) => {
   knex('post')
     .where({
       thread: req.params.thread,
-      board: req.params.board,
+      board: req.params.board
     })
     .orderBy('timestamp', 'desc')
     .limit(1)
@@ -107,8 +168,7 @@ app.get('/lastpost/:board/:thread', (req, res) => {
 
 // POST a new thread
 app.post('/newthread/:board', (req, res) => {
-  if (!req.body.text || !req.body.img || !req.body.title)
-    res.status(400).send({ error: 'Please fill out all fields' });
+  if (!req.body.text || !req.body.img || !req.body.title) res.status(400).send({ error: 'Please fill out all fields' });
   knex('thread')
     .insert([
       {
@@ -118,8 +178,8 @@ app.post('/newthread/:board', (req, res) => {
         board: req.params.board,
         img_height: req.body.img_height,
         img_width: req.body.img_width,
-        img_byte_size: req.body.img_byte_size,
-      },
+        img_byte_size: req.body.img_byte_size
+      }
     ])
     .returning('*')
     .then(data => res.send(data[0]))
@@ -139,8 +199,8 @@ app.post('/newpost/:board/:thread', (req, res) => {
         board: req.params.board,
         img_height: req.body.img_height,
         img_width: req.body.img_width,
-        img_byte_size: req.body.img_byte_size,
-      },
+        img_byte_size: req.body.img_byte_size
+      }
     ])
     .returning('*')
     .then(data => res.send(data[0]))

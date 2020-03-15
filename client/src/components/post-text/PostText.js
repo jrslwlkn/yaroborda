@@ -17,7 +17,7 @@ class PostText extends Component {
     }
 
     componentDidMount = () => {
-        let { text } = this.props;
+        let { text, replies } = this.props;
         const slicedText = text.slice(0, this.state.sliceEnd);
         text = text === slicedText ? text : `${slicedText}...`;
 
@@ -45,26 +45,28 @@ class PostText extends Component {
     }
 
     getPostById = (id) => {
-        //filter from redux
+        // filter from redux
         const { thread } = this.props;
         const { posts, opPost } = thread;
         if (opPost.id === id) return opPost;
-        else {
-            const thePost = posts.find(post => post.id === id)
-            if (thePost) return thePost;
-            else return {text: '', img: ''}
-        }
+
+        const thePost = posts.find(post => post.id === id);
+        if (thePost) return thePost;
+        return { text: '', img: '', replies: [] };
     }
 
     displayPost = (post) => {
         // instead of clg will be actual f that renders the post
-        console.log(`text ${post.text}; replies ${post.replies}`)
+        console.log(`text ${post.text}; replies ${post.replies}`);
     }
 
 
     render() {
         const { isRevealed, text, isShort } = this.state;
         const updatedMdText = text.replace(/(->([0-9]+))/gm, '[$1](javascript:revealPost($2))');
+
+        // this.props.replies.op.push(12345)
+        if (this.props.replies !== undefined) console.log('postText', this.props.replies);
 
         return (
             <div className="v-top lh-little mv0 tl post-text">

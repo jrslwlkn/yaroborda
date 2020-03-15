@@ -18,12 +18,23 @@ export default class BordaApi {
     _filterBoards = (list, name) => list.filter(b => b.theme.toLowerCase().includes(name.toLowerCase()))
 
 
+    // getAllBoards = () => this._getResource('/').then(boards => {
+    //     console.log(boards);
+    //     const result = {};
+    //     const categories = ['other', 'topic', 'it', 'japanese'];
+    //     categories.forEach(name => {
+    //         result[name] = this._filterBoards(boards, name);
+    //     });
+    //     return result;
+    // })
     getAllBoards = () => this._getResource('/').then(boards => {
+        console.log(boards);
         const result = {};
         const categories = ['other', 'topic', 'it', 'japanese'];
         categories.forEach(name => {
             result[name] = this._filterBoards(boards, name);
         });
+        console.log('result get all boards', result);
         return result;
     })
 
